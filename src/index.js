@@ -3,13 +3,21 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 
-import App from './components/app';
-import reducers from './reducers';
+import createSagaMiddleware from 'redux-saga';
 
-const createStoreWithMiddleware = applyMiddleware()(createStore);
+import App from './container/app';
+import reducers from './reducers';
+import rootSaga from './actions';
+
+const sagaMiddleware = createSagaMiddleware();
+// const createStoreWithMiddleware = applyMiddleware(sagaMiddleware)(createStore);
+const store = createStore(reducers, applyMiddleware(sagaMiddleware));
+
+sagaMiddleware.run(rootSaga);
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <App />
   </Provider>
-  , document.querySelector('.container'));
+  , document.querySelector('.container'),
+);

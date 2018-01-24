@@ -1,7 +1,8 @@
 import { combineReducers } from 'redux';
+import showDataReducer from './showData';
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state
+  data: showDataReducer,
 });
 
 export default rootReducer;
